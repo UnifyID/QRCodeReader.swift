@@ -246,6 +246,7 @@ public class QRCodeReaderViewController: UIViewController {
     overLayLabel.textColor = UIColor.whiteColor()
     overLayLabel.numberOfLines = 2;
     overLayLabel.lineBreakMode = .ByWordWrapping
+    overLayLabel.adjustsFontSizeToFitWidth = true
     view.addSubview(overLayLabel)
   }
 
