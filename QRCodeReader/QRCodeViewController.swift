@@ -33,6 +33,7 @@ public class QRCodeReaderViewController: UIViewController {
   private var cancelButton: UIButton?
   private var switchCameraButton: SwitchCameraButton?
   private var toggleTorchButton: ToggleTorchButton?
+  private var overLayLabel = UILabel()
 
   /// The code reader object used to scan the bar code.
   public let codeReader: QRCodeReader
@@ -236,6 +237,16 @@ public class QRCodeReaderViewController: UIViewController {
         view.addSubview(newCancelButton)
         cancelButton = newCancelButton
     }
+    
+    //Set up a text overlay
+    overLayLabel = UILabel(frame: CGRectMake(0, 0, 0, 0))
+    overLayLabel.translatesAutoresizingMaskIntoConstraints = false
+    overLayLabel.textAlignment = NSTextAlignment.Center
+    overLayLabel.text = "Sync with UnifyID Chrome Extension"
+    overLayLabel.textColor = UIColor.whiteColor()
+    overLayLabel.numberOfLines = 2;
+    overLayLabel.lineBreakMode = .ByWordWrapping
+    view.addSubview(overLayLabel)
   }
 
   private func setupAutoLayoutConstraints() {
@@ -265,6 +276,13 @@ public class QRCodeReaderViewController: UIViewController {
       view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:[topGuide]-[toggleTorchButton(50)]", options: [], metrics: nil, views: toggleViews))
       view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[toggleTorchButton(70)]", options: [], metrics: nil, views: toggleViews))
     }
+    
+    // Set up the constraints for our label
+    let widthConstraint = NSLayoutConstraint(item: overLayLabel, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 140)
+    let heightConstraint = NSLayoutConstraint(item: overLayLabel, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 45)
+    let xConstraint = NSLayoutConstraint(item: overLayLabel, attribute: .CenterX, relatedBy: .Equal, toItem: self.view, attribute: .CenterX, multiplier: 1, constant: 0)
+    let yConstraint = NSLayoutConstraint(item: overLayLabel, attribute: .Top, relatedBy: .Equal, toItem: topLayoutGuide, attribute: .Bottom, multiplier: 1, constant: 10)
+    NSLayoutConstraint.activateConstraints([widthConstraint, heightConstraint, xConstraint, yConstraint])
   }
 
   // MARK: - Controlling the Reader
