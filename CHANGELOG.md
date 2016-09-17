@@ -1,14 +1,40 @@
 # Change log
 
+## [Version 7.0.1](https://github.com/yannickl/QRCodeReader.swift/releases/tag/7.0.1)
+Released on 2016-09-13.
+
+- [FIX] Make type less ambiguous [#58](https://github.com/yannickl/QRCodeReader.swift/issues/58)
+
+## [Version 7.0.0](https://github.com/yannickl/QRCodeReader.swift/releases/tag/7.0.0)
+Released on 2016-09-13.
+
+**Swift 3 supports**
+
+- [REFACTORING] Use `QRCodeReaderViewControllerBuilder` instead of `QRCodeViewControllerBuilder`
+- [REFACTORING] Remove all deprecated apis
+- [ADD] Swift Package Manager supports
+
+`QRCodeReader`:
+- Use `didFindCode` instead of `didFindCodeBlock`
+- Use `isRunning` instead of `running`
+- Use `videoOrientation` instead of `videoOrientationFromDeviceOrientation`
+- `hasFrontDevice` is a property
+- `isTorchAvailable` is a property
+
+## [Version 6.2.0](https://github.com/yannickl/QRCodeReader.swift/releases/tag/6.2.0)
+Released on 2016-09-08.
+
+- [REFACTORING] Deprecating all initializers expect `initWithBuilder` in order to remove them in the next version
+
 ## [Version 6.1.0](https://github.com/yannickl/QRCodeReader.swift/releases/tag/6.1.0)
 Released on 2016-08-03.
 
-- Hide/Display cancel button
+- [ADD] Hide/Display cancel button
 
 ## [Version 6.0.0](https://github.com/yannickl/QRCodeReader.swift/releases/tag/6.0.0)
 Released on 2016-03-22.
 
-- Swift 2.2 supports
+**Swift 2.2 supports**
 
 ## [Version 5.4.0](https://github.com/yannickl/QRCodeReader.swift/releases/tag/5.4.0)
 Released on 2016-03-14.
@@ -53,7 +79,8 @@ Released on 2015-10-06.
 ## [Version 5.0.0](https://github.com/yannickl/QRCodeReader.swift/releases/tag/5.0.0)
 Released on 2015-09-17.
 
-- [REFACTORING] Switch to Swift 2
+**Swift 2 supports**
+
 - [ADD] Carthage supports
 
 ## [Version 4.3.0](https://github.com/yannickl/QRCodeReader.swift/releases/tag/4.3.0)
@@ -76,7 +103,7 @@ Released on 2015-04-15.
 ## [Version 4.0.0](https://github.com/yannickl/QRCodeReader.swift/releases/tag/4.0.0)
 Released on 2015-04-11.
 
-- [REFACTORING] Swift 1.2 support
+**Swift 1.2 supports**
 
 ## [Version 3.1.8](https://github.com/yannickl/QRCodeReader.swift/releases/tag/3.1.8)
 Released on 2015-03-28.

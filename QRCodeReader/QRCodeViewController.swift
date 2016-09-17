@@ -67,6 +67,7 @@ public class QRCodeReaderViewController: UIViewController {
 
    :see: init(cancelButtonTitle:, metadataObjectTypes:)
    */
+  @available(iOS, deprecated, message = "Use init with builder instead.")
   convenience public init(cancelButtonTitle: String, startScanningAtLoad: Bool = true) {
     self.init(cancelButtonTitle: cancelButtonTitle, metadataObjectTypes: [AVMetadataObjectTypeQRCode], startScanningAtLoad: startScanningAtLoad)
   }
@@ -79,6 +80,7 @@ public class QRCodeReaderViewController: UIViewController {
 
    :see: init(cancelButtonTitle:, metadataObjectTypes:)
    */
+  @available(iOS, deprecated, message = "Use init with builder instead.")
   convenience public init(metadataObjectTypes: [String], startScanningAtLoad: Bool = true) {
     self.init(cancelButtonTitle: "Cancel", metadataObjectTypes: metadataObjectTypes, startScanningAtLoad: startScanningAtLoad)
   }
@@ -92,6 +94,7 @@ public class QRCodeReaderViewController: UIViewController {
 
    :see: init(cancelButtonTitle:, coderReader:, startScanningAtLoad:)
    */
+  @available(iOS, deprecated, message = "Use init with builder instead.")
   convenience public init(cancelButtonTitle: String, metadataObjectTypes: [String], startScanningAtLoad: Bool = true) {
     let reader = QRCodeReader(metadataObjectTypes: metadataObjectTypes)
 
@@ -108,7 +111,8 @@ public class QRCodeReaderViewController: UIViewController {
    - parameter showTorchButton: Flag to display the toggle torch button. If the value is true and there is no torch the button will not be displayed.
    - parameter showCancelButton: Flag to display the cancel button.
    */
-    public convenience init(cancelButtonTitle: String, codeReader reader: QRCodeReader, startScanningAtLoad startScan: Bool = true, showSwitchCameraButton showSwitch: Bool = true, showTorchButton showTorch: Bool = false, showCancelButton showCancel: Bool = false) {
+  @available(iOS, deprecated, message = "Use init with builder instead.")
+  public convenience init(cancelButtonTitle: String, codeReader reader: QRCodeReader, startScanningAtLoad startScan: Bool = true, showSwitchCameraButton showSwitch: Bool = true, showTorchButton showTorch: Bool = false, showCancelButton showCancel: Bool = true) {
     self.init(builder: QRCodeViewControllerBuilder { builder in
       builder.cancelButtonTitle      = cancelButtonTitle
       builder.reader                 = reader
@@ -130,7 +134,7 @@ public class QRCodeReaderViewController: UIViewController {
     showSwitchCameraButton = builder.showSwitchCameraButton
     showTorchButton        = builder.showTorchButton
     showCancelButton       = builder.showCancelButton
-    
+
     super.init(nibName: nil, bundle: nil)
 
     view.backgroundColor = .blackColor()
@@ -156,7 +160,7 @@ public class QRCodeReaderViewController: UIViewController {
     showTorchButton        = false
     showSwitchCameraButton = false
     showCancelButton       = false
-    
+
     super.init(coder: aDecoder)
   }
 
@@ -229,13 +233,13 @@ public class QRCodeReaderViewController: UIViewController {
     }
 
     if showCancelButton {
-        let newCancelButton = UIButton()
-        newCancelButton.translatesAutoresizingMaskIntoConstraints = false
-        newCancelButton.setTitle(cancelButtonTitle, forState: .Normal)
-        newCancelButton.setTitleColor(.grayColor(), forState: .Highlighted)
-        newCancelButton.addTarget(self, action: #selector(cancelAction), forControlEvents: .TouchUpInside)
-        view.addSubview(newCancelButton)
-        cancelButton = newCancelButton
+      let newCancelButton = UIButton()
+      newCancelButton.translatesAutoresizingMaskIntoConstraints = false
+      newCancelButton.setTitle(cancelButtonTitle, forState: .Normal)
+      newCancelButton.setTitleColor(.grayColor(), forState: .Highlighted)
+      newCancelButton.addTarget(self, action: #selector(cancelAction), forControlEvents: .TouchUpInside)
+      view.addSubview(newCancelButton)
+      cancelButton = newCancelButton
     }
     
     //Set up a text overlay
@@ -253,16 +257,16 @@ public class QRCodeReaderViewController: UIViewController {
   private func setupAutoLayoutConstraints() {
     let views = ["cameraView": cameraView]
 
-    if let _cancelButton = cancelButton {
-        let cancelViews: [String: AnyObject] = ["cancelButton": _cancelButton, "cameraView": cameraView]
-        
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[cameraView][cancelButton(40)]|", options: [], metrics: nil, views: cancelViews))
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[cancelButton]-|", options: [], metrics: nil, views: cancelViews))
-    } else {
-        view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[cameraView]|", options: [], metrics: nil, views: views))
-    }
-    
     view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[cameraView]|", options: [], metrics: nil, views: views))
+
+    if let _cancelButton = cancelButton {
+      let cancelViews: [String: AnyObject] = ["cancelButton": _cancelButton, "cameraView": cameraView]
+
+      view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[cameraView][cancelButton(40)]|", options: [], metrics: nil, views: cancelViews))
+      view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|-[cancelButton]-|", options: [], metrics: nil, views: cancelViews))
+    } else {
+      view.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[cameraView]|", options: [], metrics: nil, views: views))
+    }
 
     if let _switchCameraButton = switchCameraButton {
       let switchViews: [String: AnyObject] = ["switchCameraButton": _switchCameraButton, "topGuide": topLayoutGuide]
@@ -330,7 +334,7 @@ public protocol QRCodeReaderViewControllerDelegate: class {
    - parameter result: The result of the scan
    */
   func reader(reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult)
-  
+
   /**
    Tells the delegate that the user wants to stop scanning codes.
    

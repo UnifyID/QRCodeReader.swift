@@ -28,13 +28,14 @@ import UIKit
 import AVFoundation
 
 class ViewController: UIViewController, QRCodeReaderViewControllerDelegate {
-    
-  @IBOutlet weak var showCancelButtonSwitch: UISwitch!
-    
-  @IBAction func scanAction(sender: AnyObject) {
+  lazy var reader = QRCodeReaderViewController(builder: QRCodeReaderViewControllerBuilder {
+    $0.reader          = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode])
+    $0.showTorchButton = true
+  })
+
+  @IBAction func scanAction(_ sender: AnyObject) {
     if QRCodeReader.supportsMetadataObjectTypes() {
-      let reader = createReader()
-      reader.modalPresentationStyle = .FormSheet
+      reader.modalPresentationStyle = .formSheet
       reader.delegate               = self
 
       reader.completionBlock = { (result: QRCodeReaderResult?) in
@@ -43,42 +44,41 @@ class ViewController: UIViewController, QRCodeReaderViewControllerDelegate {
         }
       }
 
-      presentViewController(reader, animated: true, completion: nil)
+      present(reader, animated: true, completion: nil)
     }
     else {
-      let alert = UIAlertController(title: "Error", message: "Reader not supported by the current device", preferredStyle: .Alert)
-      alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+      let alert = UIAlertController(title: "Error", message: "Reader not supported by the current device", preferredStyle: .alert)
+      alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 
-      presentViewController(alert, animated: true, completion: nil)
+      present(alert, animated: true, completion: nil)
     }
   }
 
   // MARK: - QRCodeReader Delegate Methods
 
-  func reader(reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
-    self.dismissViewControllerAnimated(true) { [weak self] in
+  func reader(_ reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+    dismiss(animated: true) { [weak self] in
       let alert = UIAlertController(
         title: "QRCodeReader",
         message: String (format:"%@ (of type %@)", result.value, result.metadataType),
-        preferredStyle: .Alert
+        preferredStyle: .alert
       )
-      alert.addAction(UIAlertAction(title: "OK", style: .Cancel, handler: nil))
+      alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
 
-      self?.presentViewController(alert, animated: true, completion: nil)
+      self?.present(alert, animated: true, completion: nil)
     }
   }
 
-  func readerDidCancel(reader: QRCodeReaderViewController) {
-    self.dismissViewControllerAnimated(true, completion: nil)
+  func readerDidCancel(_ reader: QRCodeReaderViewController) {
+    dismiss(animated: true, completion: nil)
   }
-    
-    private func createReader() -> QRCodeReaderViewController {
-        let builder = QRCodeViewControllerBuilder { builder in
-            builder.reader          = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode])
-            builder.showTorchButton = true
-            builder.showCancelButton = self.showCancelButtonSwitch.on
-        }
-        
-        return QRCodeReaderViewController(builder: builder)
+
+  private func createReader() -> QRCodeReaderViewController {
+    let builder = QRCodeReaderViewControllerBuilder { builder in
+      builder.reader          = QRCodeReader(metadataObjectTypes: [AVMetadataObjectTypeQRCode])
+      builder.showTorchButton = true
     }
+
+    return QRCodeReaderViewController(builder: builder)
+  }
 }
